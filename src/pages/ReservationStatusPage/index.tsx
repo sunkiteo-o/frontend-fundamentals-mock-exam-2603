@@ -5,9 +5,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Top, Spacing, Border, Button, Text, ListRow } from '_tosslib/components';
 import { colors } from '_tosslib/constants/colors';
 import { getRooms, getReservations, getMyReservations, cancelReservation } from 'pages/remotes';
-import { formatDate, timeToMinutes } from '_tosslib/utils/date';
-import { EQUIPMENT_LABELS } from '_tosslib/constants/equipment';
-import { HOUR_LABELS, TOTAL_MINUTES } from '_tosslib/constants/timeline';
+import { formatDate, timeToMinutes } from 'utils/date';
+import { EQUIPMENT_LABELS } from 'constants/equipment';
+import { HOUR_LABELS, TOTAL_MINUTES } from 'constants/timeline';
 
 export function ReservationStatusPage() {
   const navigate = useNavigate();
