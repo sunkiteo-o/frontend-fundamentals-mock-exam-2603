@@ -9,6 +9,8 @@ import axios from 'axios';
 import { formatDate } from 'utils/date';
 import { EQUIPMENT_LABELS, ALL_EQUIPMENT } from 'constants/equipment';
 import { TIME_SLOTS } from 'constants/timeline';
+import { Equipment } from '_tosslib/server/types';
+import { RoomBookingPageHeader } from './components/RoomBookingPageHeader';
 
 export function RoomBookingPage() {
   const navigate = useNavigate();
@@ -19,8 +21,8 @@ export function RoomBookingPage() {
   const [startTime, setStartTime] = useState(searchParams.get('startTime') || '');
   const [endTime, setEndTime] = useState(searchParams.get('endTime') || '');
   const [attendees, setAttendees] = useState(Number(searchParams.get('attendees')) || 1);
-  const [equipment, setEquipment] = useState<string[]>(
-    searchParams.get('equipment') ? searchParams.get('equipment')!.split(',').filter(Boolean) : []
+  const [equipment, setEquipment] = useState<Equipment[]>(
+    searchParams.get('equipment') ? (searchParams.get('equipment')!.split(',').filter(Boolean) as Equipment[]) : []
   );
   const [preferredFloor, setPreferredFloor] = useState<number | null>(
     searchParams.get('floor') ? Number(searchParams.get('floor')) : null
@@ -46,7 +48,7 @@ export function RoomBookingPage() {
   });
 
   const createMutation = useMutation(
-    (data: { roomId: string; date: string; start: string; end: string; attendees: number; equipment: string[] }) =>
+    (data: { roomId: string; date: string; start: string; end: string; attendees: number; equipment: Equipment[] }) =>
       createReservation(data),
     {
       onSuccess: (_data, variables) => {
@@ -142,62 +144,7 @@ export function RoomBookingPage() {
         padding-bottom: 40px;
       `}
     >
-      <div
-        css={css`
-          padding: 12px 24px 0;
-        `}
-      >
-        <button
-          type="button"
-          onClick={() => navigate('/')}
-          aria-label="뒤로가기"
-          css={css`
-            background: none;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-            font-size: 14px;
-            color: ${colors.grey600};
-            &:hover {
-              color: ${colors.grey900};
-            }
-          `}
-        >
-          ← 예약 현황으로
-        </button>
-      </div>
-      <Top.Top03
-        css={css`
-          padding-left: 24px;
-          padding-right: 24px;
-        `}
-      >
-        예약하기
-      </Top.Top03>
-
-      {errorMessage && (
-        <div
-          css={css`
-            padding: 0 24px;
-          `}
-        >
-          <Spacing size={12} />
-          <div
-            css={css`
-              padding: 10px 14px;
-              border-radius: 10px;
-              background: ${colors.red50};
-              display: flex;
-              align-items: center;
-              gap: 8px;
-            `}
-          >
-            <Text typography="t7" fontWeight="medium" color={colors.red500}>
-              {errorMessage}
-            </Text>
-          </div>
-        </div>
-      )}
+      <RoomBookingPageHeader errorMessage={errorMessage} onBack={() => navigate('/')} />
 
       <Spacing size={24} />
 
@@ -539,8 +486,8 @@ export function RoomBookingPage() {
                           <ListRow.Text2Rows
                             top={room.name}
                             topProps={{ typography: 't6', fontWeight: 'bold', color: colors.grey900 }}
-                            bottom={`${room.floor}층 · ${room.capacity}명 · ${room.equipment
-                              .map((e: string) => EQUIPMENT_LABELS[e])
+                            bottom={`${room.floor}층 · ${room.capacity}명 · ${(room.equipment as Equipment[])
+                              .map((e: Equipment) => EQUIPMENT_LABELS[e])
                               .join(', ')}`}
                             bottomProps={{ typography: 't7', color: colors.grey600 }}
                           />

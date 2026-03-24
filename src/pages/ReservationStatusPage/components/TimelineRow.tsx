@@ -5,6 +5,7 @@ import { colors } from '_tosslib/constants/colors';
 import { timeToMinutes } from 'utils/time';
 import { TOTAL_MINUTES } from 'constants/timeline';
 import { EQUIPMENT_LABELS } from 'constants/equipment';
+import { Equipment } from '_tosslib/server/types';
 
 interface Props {
   room: { id: string; name: string };
@@ -41,7 +42,7 @@ export function TimelineRow({ room, reservations, isFirst }: Props) {
                   </div>
                   <div>{res.attendees}명</div>
                   {res.equipment.length > 0 && (
-                    <div>{res.equipment.map((e: string) => EQUIPMENT_LABELS[e]).join(', ')}</div>
+                    <div>{res.equipment.map((e: Equipment) => EQUIPMENT_LABELS[e]).join(', ')}</div>
                   )}
                 </div>
               )}
