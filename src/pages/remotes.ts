@@ -15,7 +15,7 @@ export function createReservation(data: CreateReservationPayload) {
     '/api/reservations',
     data
   );
-
+}
 export function getMyReservations() {
   return http.get<Reservation[]>('/api/my-reservations');
 }

@@ -2,15 +2,16 @@ import { css } from '@emotion/react';
 import { Text, Spacing } from '_tosslib/components';
 import { colors } from '_tosslib/constants/colors';
 import { HOUR_LABELS, TOTAL_MINUTES } from 'constants/timeline';
-import { timeToMinutes } from 'utils/date';
+import { timeToMinutes } from 'utils/time';
 import { TimelineRow } from './TimelineRow';
+import { Reservation, Room } from '_tosslib/server/types';
 
-interface Props {
-  rooms: any[];
-  reservations: any[];
+interface TimelineSectionProps {
+  rooms: Room[];
+  reservations: Reservation[];
 }
 
-export function TimelineSection({ rooms, reservations }: Props) {
+export function TimelineSection({ rooms, reservations }: TimelineSectionProps) {
   return (
     <div
       css={css`

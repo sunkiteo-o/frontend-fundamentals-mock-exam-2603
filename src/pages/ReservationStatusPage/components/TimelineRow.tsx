@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { css } from '@emotion/react';
 import { Text } from '_tosslib/components';
 import { colors } from '_tosslib/constants/colors';
-import { timeToMinutes } from 'utils/date';
+import { timeToMinutes } from 'utils/time';
 import { TOTAL_MINUTES } from 'constants/timeline';
 import { EQUIPMENT_LABELS } from 'constants/equipment';
 

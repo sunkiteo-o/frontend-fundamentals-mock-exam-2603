@@ -1,17 +1,8 @@
 import { css } from '@emotion/react';
 import { ListRow, Button, Text } from '_tosslib/components';
 import { colors } from '_tosslib/constants/colors';
+import { Reservation } from '_tosslib/server/types';
 import { EQUIPMENT_LABELS } from 'constants/equipment';
-
-interface Reservation {
-  id: string;
-  roomId: string;
-  date: string;
-  start: string;
-  end: string;
-  attendees: number;
-  equipment: string[];
-}
 
 interface Props {
   res: Reservation;
