@@ -2,14 +2,20 @@ import { css } from '@emotion/react';
 import { useNavigate } from 'react-router-dom';
 import { Top, Spacing, Border, Button, Text } from '_tosslib/components';
 import { colors } from '_tosslib/constants/colors';
-import { DatePicker } from 'components/datePicker';
+import { DatePicker } from 'components/DatePicker';
 import { TimelineSection } from './components/TimelineSection';
 import { MyReservationSection } from './components/MyReservationSection';
-import { useReservationStatus } from 'hooks/useReservationStatus';
+import { formatDate } from 'utils/date';
+import { useState } from 'react';
 
 export function ReservationStatusPage() {
   const navigate = useNavigate();
-  const { date, setDate, rooms, reservations, myReservationList, getRoomName } = useReservationStatus();
+
+  const [date, setDate] = useState(() => {
+    const today = new Date();
+    return formatDate(today);
+  });
+
   return (
     <div
       css={css`
@@ -36,14 +42,14 @@ export function ReservationStatusPage() {
       <Spacing size={24} />
 
       {/* 예약 현황 타임라인 */}
-      <TimelineSection rooms={rooms} reservations={reservations} />
+      <TimelineSection date={date} />
 
       <Spacing size={24} />
       <Border size={8} />
       <Spacing size={24} />
 
       {/* 내 예약 목록 */}
-      <MyReservationSection list={myReservationList} getRoomName={getRoomName} />
+      <MyReservationSection />
 
       <Spacing size={24} />
       <Border size={8} />
@@ -55,7 +61,7 @@ export function ReservationStatusPage() {
           padding: 0 24px;
         `}
       >
-        <Button display="full" onClick={() => navigate('/booking')}>
+        <Button display="full" onClick={() => navigate(`/booking/${date}`)}>
           예약하기
         </Button>
       </div>

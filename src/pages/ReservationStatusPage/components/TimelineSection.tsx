@@ -4,14 +4,24 @@ import { colors } from '_tosslib/constants/colors';
 import { HOUR_LABELS, TOTAL_MINUTES } from 'constants/timeline';
 import { timeToMinutes } from 'utils/time';
 import { TimelineRow } from './TimelineRow';
-import { Reservation, Room } from '_tosslib/server/types';
+import { useGetReservations, useGetRooms } from 'hooks/useReservationQueries';
 
 interface TimelineSectionProps {
-  rooms: Room[];
-  reservations: Reservation[];
+  date: string;
 }
 
-export function TimelineSection({ rooms, reservations }: TimelineSectionProps) {
+export function TimelineSection({ date }: TimelineSectionProps) {
+  const { data: rooms, isLoading: roomsLoading } = useGetRooms();
+  const { data: reservations, isLoading: reservationsLoading } = useGetReservations(date);
+
+  if (roomsLoading || reservationsLoading || !rooms || !reservations) {
+    return (
+      <div css={containerStyle}>
+        <Text color={colors.grey400}>데이터를 불러오는 중입니다...</Text>
+      </div>
+    );
+  }
+
   return (
     <div
       css={css`
